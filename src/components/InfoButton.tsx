@@ -35,7 +35,13 @@ export default function InfoButton({ productName }: { productName: string }) {
               setShowChart(false)
             }}
           />
-          <div className="pointer-events-auto fixed top-1/3 left-1/2 z-20 flex w-[600px] -translate-x-1/2 -translate-y-1/3 flex-col rounded-lg bg-white p-4 opacity-100 shadow-lg shadow-zinc-300">
+          <div
+            className="fixed top-1/3 left-1/2 z-20 flex w-[600px] -translate-x-1/2 -translate-y-1/3 cursor-default flex-col rounded-lg bg-white p-4 opacity-100 shadow-lg shadow-zinc-300"
+            onClick={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
+            }}
+          >
             <div className="flex w-full justify-end">
               <button className="hover:scale-110" onClick={() => setShowChart(false)}>
                 ❌

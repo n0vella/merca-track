@@ -1,8 +1,9 @@
 import 'chart.js/auto'
 import 'chartjs-adapter-date-fns'
-import { ChartOptions } from 'chart.js'
+import { ChartData, ChartOptions } from 'chart.js'
 import { es } from 'date-fns/locale'
 import { Chart } from 'react-chartjs-2'
+import colors from 'tailwindcss/colors'
 
 export default function PriceChart({ product, productData }: { product: string; productData: ProductHistory }) {
   const options: ChartOptions = {
@@ -30,7 +31,7 @@ export default function PriceChart({ product, productData }: { product: string; 
         type: 'linear',
         title: {
           display: true,
-          text: 'Precio',
+          text: 'Precio (€)',
         },
         beginAtZero: false,
       },
@@ -38,26 +39,34 @@ export default function PriceChart({ product, productData }: { product: string; 
     responsive: true,
     plugins: {
       legend: {
-        position: 'top' as const,
+        display: false,
       },
       title: {
         display: true,
         text: product,
       },
+      tooltip: {
+        callbacks: {
+          label: (context) => {
+            return context.formattedValue + ' €'
+          },
+        },
+      },
     },
   }
 
   const labels = Object.keys(productData).map((strDate) => new Date(`20${strDate.split('-').join('-')}`))
-  const prices = Object.values(productData).map((data) => data.unit_price)
+  const prices = Object.values(productData)
+    .filter((data) => data.unit_price)
+    .map((data) => data.unit_price!)
 
-  const data = {
+  const data: ChartData = {
     labels,
     datasets: [
       {
-        label: 'Price',
         data: prices,
-        borderColor: 'rgb(255, 99, 132)',
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        borderColor: colors.green['400'],
+        backgroundColor: colors.green['500'],
       },
     ],
   }
