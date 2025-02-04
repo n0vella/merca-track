@@ -7,15 +7,16 @@ import {
   LineElement,
   PointElement,
   TimeScale,
+  Title,
   Tooltip,
 } from 'chart.js'
 import { es } from 'date-fns/locale'
 import { Chart as ChartJS } from 'chart.js'
-import { Chart } from 'react-chartjs-2'
+import { Line } from 'react-chartjs-2'
 import colors from 'tailwindcss/colors'
 import { useEffect, useState } from 'preact/hooks'
 
-ChartJS.register(LinearScale, TimeScale, LineController, PointElement, LineElement, Tooltip)
+ChartJS.register(LinearScale, TimeScale, LineController, PointElement, LineElement, Tooltip, Title)
 
 export default function PriceChart({ product }: { product: string }) {
   const [chartData, setChartData] = useState<ProductHistory>({})
@@ -32,7 +33,7 @@ export default function PriceChart({ product }: { product: string }) {
   useEffect(() => {
     loadData()
   }, [])
-  const options: ChartOptions = {
+  const options: ChartOptions<'line'> = {
     scales: {
       x: {
         type: 'time',
@@ -86,7 +87,7 @@ export default function PriceChart({ product }: { product: string }) {
     .filter((data) => data.unit_price)
     .map((data) => data.unit_price!)
 
-  const data: ChartData = {
+  const data: ChartData<'line'> = {
     labels,
     datasets: [
       {
@@ -97,5 +98,5 @@ export default function PriceChart({ product }: { product: string }) {
     ],
   }
 
-  return <Chart type="line" data={data} options={options} />
+  return <Line data={data} options={options} />
 }
