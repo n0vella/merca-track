@@ -1,9 +1,20 @@
-import 'chart.js/auto'
 import 'chartjs-adapter-date-fns'
-import { ChartData, ChartOptions } from 'chart.js'
+import {
+  ChartData,
+  ChartOptions,
+  LinearScale,
+  LineController,
+  LineElement,
+  PointElement,
+  TimeScale,
+  Tooltip,
+} from 'chart.js'
 import { es } from 'date-fns/locale'
+import { Chart as ChartJS } from 'chart.js'
 import { Chart } from 'react-chartjs-2'
 import colors from 'tailwindcss/colors'
+
+ChartJS.register(LinearScale, TimeScale, LineController, PointElement, LineElement, Tooltip)
 
 export default function PriceChart({ product, productData }: { product: string; productData: ProductHistory }) {
   const options: ChartOptions = {
