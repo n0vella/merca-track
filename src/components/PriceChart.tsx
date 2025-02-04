@@ -13,10 +13,25 @@ import { es } from 'date-fns/locale'
 import { Chart as ChartJS } from 'chart.js'
 import { Chart } from 'react-chartjs-2'
 import colors from 'tailwindcss/colors'
+import { useEffect, useState } from 'preact/hooks'
 
 ChartJS.register(LinearScale, TimeScale, LineController, PointElement, LineElement, Tooltip)
 
-export default function PriceChart({ product, productData }: { product: string; productData: ProductHistory }) {
+export default function PriceChart({ product }: { product: string }) {
+  const [chartData, setChartData] = useState<ProductHistory>({})
+
+  async function loadData() {
+    const dataUrl = import.meta.env.VITE_API_URL + 'query/' + encodeURI(product)
+
+    const r = await fetch(dataUrl)
+    const data = await r.json()
+
+    setChartData(data)
+  }
+
+  useEffect(() => {
+    loadData()
+  }, [])
   const options: ChartOptions = {
     scales: {
       x: {
@@ -66,8 +81,8 @@ export default function PriceChart({ product, productData }: { product: string; 
     },
   }
 
-  const labels = Object.keys(productData).map((strDate) => new Date(`20${strDate.split('-').join('-')}`))
-  const prices = Object.values(productData)
+  const labels = Object.keys(chartData).map((strDate) => new Date(`20${strDate.split('-').join('-')}`))
+  const prices = Object.values(chartData)
     .filter((data) => data.unit_price)
     .map((data) => data.unit_price!)
 

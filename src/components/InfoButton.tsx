@@ -4,7 +4,7 @@ import PriceChart from './PriceChart'
 
 export default function InfoButton({ productName }: { productName: string }) {
   const [showChart, setShowChart] = useState(false)
-  const [chartData, setChartData] = useState<ProductHistory>({})
+
   return (
     <>
       <button
@@ -13,13 +13,6 @@ export default function InfoButton({ productName }: { productName: string }) {
         onClick={async (e) => {
           e.stopPropagation()
           setShowChart(true)
-
-          const dataUrl = import.meta.env.VITE_API_URL + 'query/' + encodeURI(productName)
-
-          const r = await fetch(dataUrl)
-          const data = await r.json()
-
-          setChartData(data)
         }}
       >
         <img src={icon} />
@@ -47,7 +40,7 @@ export default function InfoButton({ productName }: { productName: string }) {
                 ❌
               </button>
             </div>
-            <PriceChart product={productName} productData={chartData} />
+            <PriceChart product={productName} />
           </div>
         </>
       )}
