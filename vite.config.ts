@@ -1,33 +1,30 @@
-import preact from "@preact/preset-vite";
-import { ConfigEnv, UserConfig, defineConfig } from "vite";
-import fs from "fs";
-import tailwindcss from "@tailwindcss/vite";
+import preact from '@preact/preset-vite'
+import { ConfigEnv, UserConfig, defineConfig } from 'vite'
+import fs from 'fs'
+import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig((mode: ConfigEnv): UserConfig => {
   return {
     plugins: [tailwindcss(), preact()],
     build: {
-      target: "esnext",
+      target: 'esnext',
       minify: false,
-      outDir: "dist",
-      watch: {
-        include: "./src/*",
-      },
+      outDir: 'dist',
       lib: {
-        entry: "src/index.tsx",
-        name: "index",
-        fileName: () => "index.user.js",
-        formats: ["iife"],
+        entry: 'src/index.tsx',
+        name: 'index',
+        fileName: () => 'index.user.js',
+        formats: ['iife'],
       },
       rollupOptions: {
         output: {
-          banner: () => fs.readFileSync("src/userscript-header.js", "utf-8"),
+          banner: () => fs.readFileSync('src/userscript-header.js', 'utf-8'),
         },
       },
     },
     define: {
       // https://github.com/vitejs/vite/discussions/13587
-      "process.env.NODE_ENV": JSON.stringify(mode),
+      'process.env.NODE_ENV': JSON.stringify(mode),
     },
-  };
-});
+  }
+})
