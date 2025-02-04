@@ -11,17 +11,22 @@ export default function App() {
   async function loadInfoButtons() {
     await awaitElement('button.product-cell__content-link') // wait till elements appear
 
-    const products = document.querySelectorAll<HTMLButtonElement>('button.product-cell__content-link')
+    const products = document.querySelectorAll<HTMLButtonElement>('div.product-cell__info')
 
     for (const product of products) {
       const name = product.querySelector<HTMLTitleElement>('h4')?.innerText
 
       if (!name) throw 'Cannot obtain product name'
 
-      product.style.position = 'relative'
+      const priceDiv = product.querySelector<HTMLDivElement>('.product-price:not(:has(.mt-info-button)')
+
+      if (!priceDiv) return
+
+      priceDiv.style.display = 'flex'
+      priceDiv.style.justifyContent = 'between'
 
       const container = document.createElement('div')
-      product.appendChild(container)
+      priceDiv.appendChild(container)
 
       render(<InfoButton productName={name} />, container)
     }

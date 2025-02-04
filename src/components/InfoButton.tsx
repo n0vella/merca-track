@@ -8,7 +8,7 @@ export default function InfoButton({ productName }: { productName: string }) {
   return (
     <>
       <button
-        className="absolute top-1 right-1 w-6 grayscale hover:scale-110 hover:grayscale-0"
+        className="mt-info-button w-5 hover:scale-110"
         title="Get product price track"
         onClick={async (e) => {
           e.stopPropagation()
