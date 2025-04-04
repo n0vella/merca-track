@@ -94,6 +94,7 @@ export default function PriceChart({ product }: { product: string }) {
         data: prices,
         borderColor: colors.green['400'],
         backgroundColor: colors.green['500'],
+        stepped: true,
       },
     ],
   }
